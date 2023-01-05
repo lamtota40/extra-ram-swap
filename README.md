@@ -1,6 +1,9 @@
 # extra-ram-swap
 Add extra ram linux and windows
 
+#Automatic install
+
+#manual install
 sudo swapon --show
 free -h
 
