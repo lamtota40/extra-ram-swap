@@ -12,12 +12,12 @@ Add extra ram linux and windows
 ```sudo swapon /swapfile```<br />
 ```sudo cp /etc/fstab /etc/fstab.bak```<br />
 ```echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab```<br />
-$ cat /proc/sys/vm/swappiness (output 60)
+$ cat /proc/sys/vm/swappiness (output 60)<br />
 ```sudo nano /etc/sysctl.conf```<br />
-$ add (vm.swappiness=10)
-$ cat /proc/sys/vm/vfs_cache_pressure (output 100)
+$ add (vm.swappiness=10)<br />
+$ cat /proc/sys/vm/vfs_cache_pressure (output 100)<br />
 ```sudo nano /etc/sysctl.conf```<br />
-$ add (vm.vfs_cache_pressure=50)
+$ add (vm.vfs_cache_pressure=50)<br />
 ```sudo reboot```<br />
 ```sudo swapon --show```<br />
 ```free -h```<br />
