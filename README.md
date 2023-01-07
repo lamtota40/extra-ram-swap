@@ -4,7 +4,7 @@ Add extra ram linux and windows
 # Automatic install
 
 # Manual install
-sudo swapon --show
+```sudo swapon --show```
 free -h
 
 sudo fallocate -l 1G /swapfile
