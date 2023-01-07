@@ -6,6 +6,7 @@ Add extra ram linux and windows
 # Manual install
 ```sudo swapon --show```<br />
 ```free -h```<br />
+
 ```sudo fallocate -l 1G /swapfile```<br />
 ```sudo chmod 600 /swapfile```<br />
 ```sudo mkswap /swapfile```<br />
@@ -17,6 +18,7 @@ $ add (vm.swappiness=10)<br />
 ```sudo nano /etc/sysctl.conf```<br />
 $ add (vm.vfs_cache_pressure=50)<br />
 ```sudo reboot```<br />
+
 ```sudo swapon --show```<br />
 ```free -h```<br />
 
