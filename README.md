@@ -4,26 +4,26 @@ Add extra ram linux and windows
 # Automatic install
 
 # Manual install
-```sudo swapon --show``` <br />
-```free -h```
+```sudo swapon --show```<br />
+```free -h```<br />
 
-sudo fallocate -l 1G /swapfile
-ls -lh /swapfile (-rw-r--r--)
-sudo chmod 600 /swapfile
-ls -lh /swapfile (-rw-------)
-sudo mkswap /swapfile
-sudo swapon /swapfile
-sudo cp /etc/fstab /etc/fstab.bak
-echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+```sudo fallocate -l 1G /swapfile```<br />
+
+```sudo chmod 600 /swapfile```<br />
+
+```sudo mkswap /swapfile```<br />
+```sudo swapon /swapfile```<br />
+```sudo cp /etc/fstab /etc/fstab.bak```<br />
+```echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab```<br />
 $ cat /proc/sys/vm/swappiness (output 60)
-sudo sysctl vm.swappiness=10
-sudo nano /etc/sysctl.conf
+
+```sudo nano /etc/sysctl.conf```<br />
 $ add (vm.swappiness=10)
 $ cat /proc/sys/vm/vfs_cache_pressure (output 100)
-sudo sysctl vm.vfs_cache_pressure=50
-sudo nano /etc/sysctl.conf
-$ add (vm.vfs_cache_pressure=50)
 
+```sudo nano /etc/sysctl.conf```<br />
+$ add (vm.vfs_cache_pressure=50)
+```sudo reboot```<br />
 sudo swapon --show
 free -h
 
