@@ -26,3 +26,4 @@ $ add (vm.vfs_cache_pressure=50)
 
 sudo swapon --show
 free -h
+
