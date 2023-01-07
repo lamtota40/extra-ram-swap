@@ -3,7 +3,7 @@ Add extra ram linux and windows
 
 # Automatic install
 
-# Manual install
+# Manual install for linux
 ```sudo swapon --show```<br />
 ```free -h```<br />
 
