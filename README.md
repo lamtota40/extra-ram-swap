@@ -1,5 +1,5 @@
 # extra-ram-swap
-Add extra ram linux and windows
+Add extra ram linux or windows
 
 # Automatic install
 
