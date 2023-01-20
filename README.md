@@ -26,3 +26,6 @@ add (vm.vfs_cache_pressure=50)<br />
 sudo swapon --all --verbose
 swapon on /dev/sda2
 cat /proc/swaps
+
+
+https://help.ubuntu.com/community/SwapFaq
