@@ -22,3 +22,7 @@ add (vm.vfs_cache_pressure=50)<br />
 ```sudo swapon --show```<br />
 ```free -h```<br />
 
+
+sudo swapon --all --verbose
+swapon on /dev/sda2
+cat /proc/swaps
