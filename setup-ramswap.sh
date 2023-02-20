@@ -1,6 +1,15 @@
 #!/bin/bash
 
-sudo fallocate -l 2G /swapfile
+echo "==================================="
+echo "how many add swap RAM ?"
+echo "example if input 2 Gb input 2000"
+read -p "input (Mb):" size
+     until [[ -z "$size" || "$size" =~ ^[0-9]$ ]]; do
+	echo "$size: invalid input."
+	read -p "input (Mb):" size
+     done
+
+sudo fallocate -l $size /swapfile
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
