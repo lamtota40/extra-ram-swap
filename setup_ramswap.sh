@@ -59,18 +59,21 @@ case $pilihan in
     fi
 
     while true; do
-        read -p "Masukkan ukuran swap baru dalam Mb (250-9000): " swap_size
+        echo "jika ingin set ke 3GB masukan 3000"
+        read -p "Masukkan ukuran SWAP baru dalam Mb (250-9000): " swap_size
         [[ "$swap_size" =~ ^[0-9]+$ ]] && [ "$swap_size" -ge 250 ] && [ "$swap_size" -le 9000 ] && break
         echo "Ukuran tidak valid. Silakan coba lagi."
     done
 
     while true; do
+        echo "default 60 jika tidak mau merubahnya tekan ENTER"
         read -e -i 60 -p "Masukkan nilai swappiness baru (1-100): " swappiness
         [[ "$swappiness" =~ ^[0-9]+$ ]] && [ "$swappiness" -ge 1 ] && [ "$swappiness" -le 100 ] && break
         echo "Nilai tidak valid."
     done
 
     while true; do
+        echo "default 100 jika tidak mau merubahnya tekan ENTER"
         read -e -i 100 -p "Masukkan nilai vfs_cache_pressure baru (1-1000): " vfs_cache_pressure
         [[ "$vfs_cache_pressure" =~ ^[0-9]+$ ]] && [ "$vfs_cache_pressure" -ge 1 ] && [ "$vfs_cache_pressure" -le 1000 ] && break
         echo "Nilai tidak valid."
@@ -108,18 +111,21 @@ case $pilihan in
     fi
 
     while true; do
+        echo "jika ingin set ke 3GB masukan 3000"
         read -p "Masukkan ukuran swap baru dalam Mb (250-9000): " swap_size
         [[ "$swap_size" =~ ^[0-9]+$ ]] && [ "$swap_size" -ge 250 ] && [ "$swap_size" -le 9000 ] && break
         echo "Ukuran tidak valid. Silakan coba lagi."
     done
 
     while true; do
+        echo "default 60 jika tidak mau merubahnya tekan ENTER"
         read -e -i 60 -p "Masukkan nilai swappiness baru (1-100): " swappiness
         [[ "$swappiness" =~ ^[0-9]+$ ]] && [ "$swappiness" -ge 1 ] && [ "$swappiness" -le 100 ] && break
         echo "Nilai tidak valid."
     done
 
     while true; do
+        echo "default 100 jika tidak mau merubahnya tekan ENTER"
         read -e -i 100 -p "Masukkan nilai vfs_cache_pressure baru (1-1000): " vfs_cache_pressure
         [[ "$vfs_cache_pressure" =~ ^[0-9]+$ ]] && [ "$vfs_cache_pressure" -ge 1 ] && [ "$vfs_cache_pressure" -le 1000 ] && break
         echo "Nilai tidak valid."
