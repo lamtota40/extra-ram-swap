@@ -33,9 +33,9 @@ tampilkan_info() {
 while true; do
 clear
 tampilkan_info
-echo "========================================"
+echo "===================================================="
 echo "             MENU SWAP RAM"
-echo "========================================"
+echo "===================================================="
 echo "STATUS SWAP : $swap_status"
 echo "SWAP RAM    : Usage = ${swap_usage} Mb (${swap_percent}%) | Total = ${swap_total} Mb"
 echo "RAM         : Usage = ${ram_usage} Mb ($((ram_usage * 100 / ram_total))%) | Total = ${ram_total} Mb"
@@ -44,7 +44,7 @@ echo "1. Enable SWAP"
 echo "2. Update SWAP"
 echo "3. Disable SWAP"
 echo "0. Exit Program"
-echo "========================================"
+echo "===================================================="
 read -p "Masukan input Angka pilihanmu : " pilihan
 
 case $pilihan in
