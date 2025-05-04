@@ -1,3 +1,10 @@
+
+# Mengecek apakah swap aktif
+if swapon --summary | grep -q '^/'; then
+    echo "status SWAP saat ini ENABLE silahkan pilih UPDATE atau DISABLE."
+    exit 0
+fi
+
 # Meminta input dari pengguna untuk ukuran swap
 while true; do
     read -p "Masukkan ukuran swap baru dalam Mb (misalnya 3000 untuk 3GB): " swap_size
