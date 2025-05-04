@@ -1,5 +1,6 @@
 # extra-ram-swap
 Add extra ram for linux
+[![<img src="https://i.postimg.cc/X72JFYKG/IMG-20250504-160657.jpg" width="50%">](https://postimg.cc/hfdcRg5c)
 [![IMG-20250504-160657.jpg](https://i.postimg.cc/X72JFYKG/IMG-20250504-160657.jpg)](https://postimg.cc/hfdcRg5c)
 
 # install
