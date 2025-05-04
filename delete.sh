@@ -4,6 +4,9 @@
 if swapon --summary | grep -q '^/swapfile'; then
     echo "Menonaktifkan swap..."
     sudo swapoff /swapfile
+else
+    echo "Swapfile tidak ditemukan atau tidak aktif. Tidak ada yang perlu dinonaktifkan."
+    exit 0
 fi
 
 # Menghapus file swap
