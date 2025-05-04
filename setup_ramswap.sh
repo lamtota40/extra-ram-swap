@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Pastikan dijalankan sebagai root
 if (( $EUID != 0 )); then
     echo "Please run as root"
     echo "You can Try comand 'su root' or 'sudo -i' or 'sudo -'"
@@ -100,4 +101,95 @@ case $pilihan in
     clear
     echo "Kamu memilih: Update SWAP"
 
-    if !
+    if ! swapon --summary | grep -q '^/'; then
+        echo "Tidak ada swap yang aktif. Skrip dihentikan."
+        pause
+        continue
+    fi
+
+    while true; do
+        read -p "Masukkan ukuran swap baru dalam Mb (250-9000): " swap_size
+        [[ "$swap_size" =~ ^[0-9]+$ ]] && [ "$swap_size" -ge 250 ] && [ "$swap_size" -le 9000 ] && break
+        echo "Ukuran tidak valid. Silakan coba lagi."
+    done
+
+    while true; do
+        read -e -i 60 -p "Masukkan nilai swappiness baru (1-100): " swappiness
+        [[ "$swappiness" =~ ^[0-9]+$ ]] && [ "$swappiness" -ge 1 ] && [ "$swappiness" -le 100 ] && break
+        echo "Nilai tidak valid."
+    done
+
+    while true; do
+        read -e -i 100 -p "Masukkan nilai vfs_cache_pressure baru (1-1000): " vfs_cache_pressure
+        [[ "$vfs_cache_pressure" =~ ^[0-9]+$ ]] && [ "$vfs_cache_pressure" -ge 1 ] && [ "$vfs_cache_pressure" -le 1000 ] && break
+        echo "Nilai tidak valid."
+    done
+
+    swapoff /swapfile
+
+    if ! fallocate -l ${swap_size}M /swapfile; then
+        echo "fallocate gagal, menggunakan dd..."
+        dd if=/dev/zero of=/swapfile bs=1M count=${swap_size}
+    fi
+
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+
+    grep -q '/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
+
+    sed -i '/^vm.swappiness/d' /etc/sysctl.conf
+    sed -i '/^vm.vfs_cache_pressure/d' /etc/sysctl.conf
+    echo "vm.swappiness=$swappiness" >> /etc/sysctl.conf
+    echo "vm.vfs_cache_pressure=$vfs_cache_pressure" >> /etc/sysctl.conf
+
+    sysctl -p
+
+    echo "Swap berhasil diperbarui."
+    pause
+    ;;
+  3)
+    clear
+    echo "Kamu memilih: Disable SWAP"
+
+    if swapon --summary | grep -q '^/swapfile'; then
+        echo "Menonaktifkan swap..."
+        swapoff /swapfile
+    else
+        echo "Swapfile tidak aktif atau tidak ditemukan."
+        pause
+        continue
+    fi
+
+    if [ -f /swapfile ]; then
+        echo "Menghapus file swap..."
+        rm -f /swapfile
+    fi
+
+    if grep -q '/swapfile' /etc/fstab; then
+        echo "Menghapus entri dari /etc/fstab..."
+        sed -i '/\/swapfile/d' /etc/fstab
+    fi
+
+    if [ -f /etc/sysctl.conf.bak ]; then
+        echo "Memulihkan konfigurasi sysctl..."
+        cp /etc/sysctl.conf.bak /etc/sysctl.conf
+        chmod 644 /etc/sysctl.conf
+        sysctl -p
+    else
+        echo "Backup sysctl.conf tidak ditemukan."
+    fi
+
+    echo "Swap dinonaktifkan."
+    pause
+    ;;
+  0)
+    echo "Keluar dari program."
+    exit 0
+    ;;
+  *)
+    echo "Pilihan tidak dikenal."
+    pause
+    ;;
+esac
+done
