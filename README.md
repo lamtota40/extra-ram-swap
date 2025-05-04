@@ -1,5 +1,5 @@
 # extra-ram-swap
-Add extra ram linux
+Add extra ram for linux
 
 # install
 ```console
