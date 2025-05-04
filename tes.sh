@@ -7,5 +7,5 @@ swap_percent="0";
 else
 swap_percent=$(($swap_usage * 100 / $swap_total));
 fi
-echo -e "RAM    	 :Usage = "$ram_usage" Mb ($(($ram_usage * 100 / $ram_total))%) | Total = "$ram_total" Mb"
+echo -e "RAM       :Usage = "$ram_usage" Mb ($(($ram_usage * 100 / $ram_total))%) | Total = "$ram_total" Mb"
 echo -e "SWAP RAM  :Usage = "$swap_usage" Mb ("$swap_percent"%) | Total = "$swap_total" Mb"
