@@ -22,10 +22,10 @@ tampilkan_info() {
   swap_total=$(awk '{print $2}' <<< "$swapinfo")
   if [ "$swap_total" -eq 0 ]; then
     swap_percent=0
-    swap_status="Disable"
+    swap_status="DISABLE"
   else
     swap_percent=$((swap_usage * 100 / swap_total))
-    swap_status="Enable"
+    swap_status="ENABLE"
   fi
 }
 
@@ -53,7 +53,7 @@ case $pilihan in
     echo "Kamu memilih: Enable SWAP"
 
     if swapon --summary | grep -q '^/'; then
-        echo "Status SWAP saat ini ENABLE. Silakan pilih UPDATE atau DISABLE."
+        echo "Status SWAP saat ini sudah ENABLE. Silakan pilih UPDATE atau DISABLE."
         pause
         continue
     fi
