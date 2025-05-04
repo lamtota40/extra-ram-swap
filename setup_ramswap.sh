@@ -26,7 +26,8 @@ else
     swap_status="Enable"
 fi
 
-# Tampilkan menu
+# Menu utama
+while true; do
 clear
 echo "========================================"
 echo "             MENU SWAP RAM"
@@ -56,3 +57,4 @@ case $pilihan in
         echo "Pilihan tidak dikenal"
         ;;
 esac
+done
