@@ -32,8 +32,8 @@ clear
 echo "========================================"
 echo "             MENU SWAP RAM"
 echo "========================================"
-echo "Status Swap : $swap_status"
-echo "Swap RAM    : Usage = ${swap_usage} Mb (${swap_percent}%) | Total = ${swap_total} Mb"
+echo "STATUS SWAP : $swap_status"
+echo "SWAP RAM    : Usage = ${swap_usage} Mb (${swap_percent}%) | Total = ${swap_total} Mb"
 echo "RAM         : Usage = ${ram_usage} Mb ($((ram_usage * 100 / ram_total))%) | Total = ${ram_total} Mb"
 echo ""
 echo "1. Enable SWAP"
@@ -52,6 +52,9 @@ case $pilihan in
         ;;
     3)
         echo "Kamu memilih: Disable SWAP"
+        ;;
+    0)
+        exit 0
         ;;
     *)
         echo "Pilihan tidak dikenal"
