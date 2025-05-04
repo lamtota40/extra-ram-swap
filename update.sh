@@ -49,7 +49,6 @@ if ! grep -q '/swapfile' /etc/fstab; then
 fi
 
 # Memperbarui sysctl.conf
-sudo cp /etc/sysctl.conf /etc/sysctl.conf.bak
 sudo sed -i "/^vm.swappiness/d" /etc/sysctl.conf
 sudo sed -i "/^vm.vfs_cache_pressure/d" /etc/sysctl.conf
 echo "vm.swappiness=$swappiness" | sudo tee -a /etc/sysctl.conf
