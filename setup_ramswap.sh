@@ -61,3 +61,141 @@ case $choice in
     while true; do
         echo "If you want to set to 3GB enter 3000"
         read -p "Enter new SWAP size in Mb (250-9000): " swap_size
+        [[ "$swap_size" =~ ^[0-9]+$ ]] && [ "$swap_size" -ge 250 ] && [ "$swap_size" -le 9000 ] && break
+        echo "Invalid size. Please try again."
+    done
+
+    while true; do
+        echo "Default is 60, press ENTER to skip changing"
+        read -e -i 60 -p "Enter new swappiness value (1-100): " swappiness
+        [[ "$swappiness" =~ ^[0-9]+$ ]] && [ "$swappiness" -ge 1 ] && [ "$swappiness" -le 100 ] && break
+        echo "Invalid value."
+    done
+
+    while true; do
+        echo "Default is 100, press ENTER to skip changing"
+        read -e -i 100 -p "Enter new vfs_cache_pressure value (1-1000): " vfs_cache_pressure
+        [[ "$vfs_cache_pressure" =~ ^[0-9]+$ ]] && [ "$vfs_cache_pressure" -ge 1 ] && [ "$vfs_cache_pressure" -le 1000 ] && break
+        echo "Invalid value."
+    done
+
+    if ! fallocate -l ${swap_size}M /swapfile; then
+        echo "fallocate failed, using dd..."
+        dd if=/dev/zero of=/swapfile bs=1M count=${swap_size}
+    fi
+
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+    cp /etc/fstab /etc/fstab.bak
+    cp /etc/sysctl.conf /etc/sysctl.conf.bak
+    chmod 644 /etc/sysctl.conf.bak
+
+    echo '/swapfile none swap sw 0 0' >> /etc/fstab
+    echo -e "vm.swappiness=$swappiness\nvm.vfs_cache_pressure=$vfs_cache_pressure" >> /etc/sysctl.conf
+    sysctl vm.swappiness=$swappiness
+    sysctl vm.vfs_cache_pressure=$vfs_cache_pressure
+    sysctl -p
+
+    echo "SWAP has been enabled."
+    pause
+    ;;
+  2)
+    clear
+    echo "You chose: Update SWAP"
+
+    if ! swapon --summary | grep -q '^/'; then
+        echo "No active swap found. Script stopped."
+        pause
+        continue
+    fi
+
+    while true; do
+        echo "If you want to set to 3GB enter 3000"
+        read -p "Enter new swap size in Mb (250-9000): " swap_size
+        [[ "$swap_size" =~ ^[0-9]+$ ]] && [ "$swap_size" -ge 250 ] && [ "$swap_size" -le 9000 ] && break
+        echo "Invalid size. Please try again."
+    done
+
+    while true; do
+        echo "Default is 60, press ENTER to skip changing"
+        read -e -i 60 -p "Enter new swappiness value (1-100): " swappiness
+        [[ "$swappiness" =~ ^[0-9]+$ ]] && [ "$swappiness" -ge 1 ] && [ "$swappiness" -le 100 ] && break
+        echo "Invalid value."
+    done
+
+    while true; do
+        echo "Default is 100, press ENTER to skip changing"
+        read -e -i 100 -p "Enter new vfs_cache_pressure value (1-1000): " vfs_cache_pressure
+        [[ "$vfs_cache_pressure" =~ ^[0-9]+$ ]] && [ "$vfs_cache_pressure" -ge 1 ] && [ "$vfs_cache_pressure" -le 1000 ] && break
+        echo "Invalid value."
+    done
+
+    swapoff /swapfile
+
+    if ! fallocate -l ${swap_size}M /swapfile; then
+        echo "fallocate failed, using dd..."
+        dd if=/dev/zero of=/swapfile bs=1M count=${swap_size}
+    fi
+
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+
+    grep -q '/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
+
+    sed -i '/^vm.swappiness/d' /etc/sysctl.conf
+    sed -i '/^vm.vfs_cache_pressure/d' /etc/sysctl.conf
+    echo "vm.swappiness=$swappiness" >> /etc/sysctl.conf
+    echo "vm.vfs_cache_pressure=$vfs_cache_pressure" >> /etc/sysctl.conf
+
+    sysctl -p
+
+    echo "Swap successfully updated."
+    pause
+    ;;
+  3)
+    clear
+    echo "You chose: Disable SWAP"
+
+    if swapon --summary | grep -q '^/swapfile'; then
+        echo "Disabling swap..."
+        swapoff /swapfile
+    else
+        echo "Swapfile is not active or not found."
+        pause
+        continue
+    fi
+
+    if [ -f /swapfile ]; then
+        echo "Removing swap file..."
+        rm -f /swapfile
+    fi
+
+    if grep -q '/swapfile' /etc/fstab; then
+        echo "Removing entry from /etc/fstab..."
+        sed -i '/\/swapfile/d' /etc/fstab
+    fi
+
+    if [ -f /etc/sysctl.conf.bak ]; then
+        echo "Restoring sysctl configuration..."
+        cp /etc/sysctl.conf.bak /etc/sysctl.conf
+        chmod 644 /etc/sysctl.conf
+        sysctl -p
+    else
+        echo "sysctl.conf backup not found."
+    fi
+
+    echo "Swap disabled."
+    pause
+    ;;
+  0)
+    echo "Exiting program."
+    exit 0
+    ;;
+  *)
+    echo "Unknown choice."
+    pause
+    ;;
+esac
+done
