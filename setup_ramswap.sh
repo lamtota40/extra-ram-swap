@@ -74,8 +74,8 @@ case $choice in
 
     while true; do
         echo "Default is 100, press ENTER to skip changing"
-        read -e -i 100 -p "Enter new vfs_cache_pressure value (1-1000): " vfs_cache_pressure
-        [[ "$vfs_cache_pressure" =~ ^[0-9]+$ ]] && [ "$vfs_cache_pressure" -ge 1 ] && [ "$vfs_cache_pressure" -le 1000 ] && break
+        read -e -i 100 -p "Enter new vfs_cache_pressure value (1-200): " vfs_cache_pressure
+        [[ "$vfs_cache_pressure" =~ ^[0-9]+$ ]] && [ "$vfs_cache_pressure" -ge 1 ] && [ "$vfs_cache_pressure" -le 200 ] && break
         echo "Invalid value."
     done
 
@@ -126,8 +126,8 @@ case $choice in
 
     while true; do
         echo "Default is 100, press ENTER to skip changing"
-        read -e -i 100 -p "Enter new vfs_cache_pressure value (1-1000): " vfs_cache_pressure
-        [[ "$vfs_cache_pressure" =~ ^[0-9]+$ ]] && [ "$vfs_cache_pressure" -ge 1 ] && [ "$vfs_cache_pressure" -le 1000 ] && break
+        read -e -i 100 -p "Enter new vfs_cache_pressure value (1-200): " vfs_cache_pressure
+        [[ "$vfs_cache_pressure" =~ ^[0-9]+$ ]] && [ "$vfs_cache_pressure" -ge 1 ] && [ "$vfs_cache_pressure" -le 200 ] && break
         echo "Invalid value."
     done
 
