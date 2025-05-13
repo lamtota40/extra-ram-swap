@@ -31,6 +31,16 @@ display_info() {
 
 # Main menu
 while true; do
+
+if [ ! -f /etc/fstab.bak ]; then
+    cp /etc/fstab /etc/fstab.bak
+    chmod 644 /etc/fstab.bak
+fi
+if [ ! -f /etc/sysctl.conf.bak ]; then
+    cp /etc/sysctl.conf /etc/sysctl.conf.bak
+    chmod 644 /etc/sysctl.conf.bak
+fi
+
 clear
 display_info
 echo "===================================================="
@@ -87,10 +97,7 @@ case $choice in
     chmod 600 /swapfile
     mkswap /swapfile
     swapon /swapfile
-    cp /etc/fstab /etc/fstab.bak
-    cp /etc/sysctl.conf /etc/sysctl.conf.bak
-    chmod 644 /etc/sysctl.conf.bak
-
+    
     echo '/swapfile none swap sw 0 0' >> /etc/fstab
     echo -e "vm.swappiness=$swappiness\nvm.vfs_cache_pressure=$vfs_cache_pressure" >> /etc/sysctl.conf
     sysctl vm.swappiness=$swappiness
@@ -148,7 +155,6 @@ case $choice in
     sed -i '/^vm.vfs_cache_pressure/d' /etc/sysctl.conf
     echo "vm.swappiness=$swappiness" >> /etc/sysctl.conf
     echo "vm.vfs_cache_pressure=$vfs_cache_pressure" >> /etc/sysctl.conf
-
     sysctl -p
 
     echo "Swap successfully updated."
@@ -182,8 +188,6 @@ case $choice in
         cp /etc/sysctl.conf.bak /etc/sysctl.conf
         chmod 644 /etc/sysctl.conf
         sysctl -p
-    else
-        echo "sysctl.conf backup not found."
     fi
 
     echo "Swap disabled."
