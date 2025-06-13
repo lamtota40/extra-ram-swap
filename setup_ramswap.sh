@@ -89,6 +89,8 @@ case $choice in
         echo "Invalid value."
     done
 
+rm -rf /swapfile
+
     if ! dd if=/dev/zero of=/swapfile bs=1M count=${swap_size} status=none; then
        echo "dd failed, using fallocate..."
        fallocate -l ${swap_size}M /swapfile
