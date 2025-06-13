@@ -51,7 +51,7 @@ echo "SWAP RAM    : Usage = ${swap_usage} Mb (${swap_percent}%) | Total = ${swap
 echo "RAM         : Usage = ${ram_usage} Mb ($((ram_usage * 100 / ram_total))%) | Total = ${ram_total} Mb"
 echo ""
 echo "1. Enable SWAP"
-echo "2. Update SWAP"
+echo "2. Change SWAP"
 echo "3. Disable SWAP"
 echo "0. Exit Program"
 echo "============================================================"
@@ -91,9 +91,6 @@ case $choice in
 
 rm -rf /swapfile
 
-touch /swapfile
-chattr +C /swapfile
-
     if ! dd if=/dev/zero of=/swapfile bs=1M count=${swap_size} status=progress; then
        echo "dd failed, using fallocate..."
        fallocate -l ${swap_size}M /swapfile
@@ -114,7 +111,7 @@ chattr +C /swapfile
     ;;
   2)
     clear
-    echo "You chose: Update SWAP"
+    echo "You chose: Change SWAP"
 
     if ! swapon --summary | grep -q '^/'; then
         echo "No active swap found. Script stopped."
