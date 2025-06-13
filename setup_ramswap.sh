@@ -91,7 +91,10 @@ case $choice in
 
 rm -rf /swapfile
 
-    if ! dd if=/dev/zero of=/swapfile bs=1M count=${swap_size} status=none; then
+touch /swapfile
+chattr +C /swapfile
+
+    if ! dd if=/dev/zero of=/swapfile bs=1M count=${swap_size} status=progress; then
        echo "dd failed, using fallocate..."
        fallocate -l ${swap_size}M /swapfile
     fi
